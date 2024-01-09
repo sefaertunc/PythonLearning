@@ -49,17 +49,12 @@ def make_coffee(userinput):
 def request_check(user_input):
     global is_process_over
     if user_input == "report":
-        var_dic = RESOURCES
-        for i in var_dic:
-            print(i + ": " + f"{var_dic[i]}")
-        print("money= $" + str(money))
+        money_machine.report()
     elif user_input == "espresso" or user_input == "latte" or user_input == "cappuccino":
-        if check_sources(user_input):
-            inserted = identify_inserted_coins(0.25, 0.1, 0.05, 0.01)
-            activate_operator(inserted, user_input)
-        else:
-            print("Sorry, we don't have enough source")
-            return
+        drink = menu.find_drink(user_input)
+        if coffee_maker.is_resource_sufficient(drink):
+            if money_machine.make_payment(drink.cost):
+                coffee_maker.make_coffee(drink)
     elif user_input == "off":
         print("Machine is closing!")
         is_process_over = True
@@ -72,6 +67,9 @@ table.add_column("Coffee Types", ["Espresso", "Latte", "Cappuccino"])
 table.add_column("Price", ["1.50$", "2.50$", "3.00$"])
 print(table)
 
+menu = Menu()
+money_machine = MoneyMachine()
+coffee_maker = CoffeeMaker()
 
 while not is_process_over:
     request = input("What would you like? (espresso/latte/cappuccino) ").lower()
