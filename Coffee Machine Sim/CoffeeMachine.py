@@ -1,6 +1,7 @@
 from CoffeeMach_Data import MENU
 from CoffeeMach_Data import RESOURCES
-import os
+from prettytable import PrettyTable
+
 
 money = 0
 is_process_over = False
@@ -22,22 +23,21 @@ def activate_operator(inserted_coins, userinput):
         earned = cost
         exchange = inserted_coins - earned
         money += earned
-        print(f"Here is ${exchange:.2f} in change.")
-        drain_source(userinput)
+        if exchange > 0:
+            print(f"Here is ${exchange:.2f} in change.")
+        make_coffee(userinput)
     else:
         print("Sorry that's not enough money. Money refunded.")
-        return
 
 
 def check_sources(userinput):
     for ingredient in MENU[userinput]["ingredients"]:
         if MENU[userinput]["ingredients"][ingredient] > RESOURCES[ingredient]:
-            print("Negative")
             return False
     return True
 
 
-def drain_source(userinput):
+def make_coffee(userinput):
     for ingredient in MENU[userinput]["ingredients"]:
         RESOURCES[ingredient] -= MENU[userinput]["ingredients"][ingredient]
     print(f"Here is your {userinput} ☕ Enjoy!")
@@ -56,11 +56,18 @@ def request_check(user_input):
             activate_operator(inserted, user_input)
         else:
             print("Sorry, we don't have enough source")
-            is_process_over = True
             return
+    elif user_input == "off":
+        print("Machine is closing!")
+        is_process_over = True
     else:
         print("Invalid Input!")
 
+
+table = PrettyTable()
+table.add_column("Coffee Types", ["Espresso", "Latte", "Cappuccino"])
+table.add_column("Price", ["1.50$", "2.50$", "3.00$"])
+print(table)
 
 while not is_process_over:
     request = input("What would you like? (espresso/latte/cappuccino) ").lower()
