@@ -1,6 +1,6 @@
 from prettytable import PrettyTable
 
-from menu import Menu, MenuItem
+from coffee_menu import Menu
 from coffee_maker import CoffeeMaker
 from money_machine import MoneyMachine
 
@@ -8,6 +8,7 @@ is_process_over = False
 menu = Menu()
 money_machine = MoneyMachine()
 coffee_maker = CoffeeMaker()
+
 
 def make_table():
     table = PrettyTable()
@@ -33,7 +34,6 @@ def request_check(user_input):
 
 
 make_table()
-
 
 while not is_process_over:
     request = input("What would you like? (espresso/latte/cappuccino) ").lower()
