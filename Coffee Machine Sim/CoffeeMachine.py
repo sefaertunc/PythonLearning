@@ -2,7 +2,7 @@ from prettytable import PrettyTable
 
 from coffee_menu import Menu
 from coffee_maker import CoffeeMaker
-from money_machine import MoneyMachine
+from CMS_money_machine import MoneyMachine
 
 is_process_over = False
 menu = Menu()
