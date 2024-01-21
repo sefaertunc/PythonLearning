@@ -28,6 +28,14 @@ class Snake:
             self.snake_list[snake_num].setposition(pos_x, pos_y)
         self.head.forward(MOVE_DISTANCE)
 
+    def add_segment(self):
+        part = Turtle("square")
+        part.color("white")
+        part.penup()
+        pos = self.snake_list[-1].position()
+        part.setposition(pos)
+        self.snake_list.append(part)
+
     def turn_up(self):
         if self.head.heading() != DOWN:
             self.head.setheading(UP)
@@ -43,3 +51,12 @@ class Snake:
     def turn_right(self):
         if self.head.heading() != LEFT:
             self.head.setheading(RIGHT)
+
+    def detect_collision_wall(self):
+        if self.head.xcor() > 280 or self.head.xcor() < - 280 or self.head.ycor() > 280 or self.head.ycor() < -280:
+            return True
+
+    def detect_collision_snake(self):
+        for part in self.snake_list[1:]:
+            if self.head.distance(part) < 10:
+                return True
