@@ -10,7 +10,9 @@ class Paddle(Turtle):
         self.color("white")
         self.shapesize(self.length, 1)
         self.penup()
-        self.goto(corX, corY)
+        self.x = corX
+        self.y = corY
+        self.goto(self.x, self.y)
 
     def move_upward(self):
         if self.ycor() < 250:
@@ -21,3 +23,6 @@ class Paddle(Turtle):
         if self.ycor() > -250:
             new_y = self.ycor() - 20
             self.goto(self.xcor(), new_y)
+
+    def move_zero(self):
+        self.goto(self.x, self.y)
