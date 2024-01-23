@@ -13,15 +13,9 @@ game_is_on = True
 while game_is_on:
     main_screen.screen.update()
     ball.move_ball()
-    if ball.ycor() > 290 or ball.ycor() < -290:
-        ball.detect_wall()
-    if ball.distance(right_paddle) < 50 and ball.xcor() > 340 or ball.distance(left_paddle) < 50 and ball.xcor() < -340:
-        ball.detect_ball()
-
-
-
-
-
+    ball.detect_wall()
+    ball.detect_ball(right_paddle)
+    ball.detect_ball(left_paddle)
 
 
 

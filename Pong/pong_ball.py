@@ -1,4 +1,5 @@
 from turtle import Turtle
+import random
 
 
 class Ball(Turtle):
@@ -7,17 +8,21 @@ class Ball(Turtle):
         self.shape("circle")
         self.color("white")
         self.penup()
-        self.x_move = 0.1
-        self.y_move = 0.1
+        self.setheading(10)
         self.goto(0, 0)
 
     def move_ball(self):
-        new_x = self.xcor() + self.x_move
-        new_y = self.ycor() + self.y_move
-        self.goto(new_x, new_y)
+        self.forward(0.1)
 
     def detect_wall(self):
-        self.y_move *= -1
+        if self.ycor() > 290 or self.ycor() < -290:
+            self.setheading(360 - self.heading())
 
-    def detect_ball(self):
-        self.x_move *= -1
+    def detect_ball(self, paddle):
+        randomize = random.randint(-10, 10)
+        if paddle.index == "r":
+            if self.distance(paddle) < 50 and self.xcor() > 340:
+                self.setheading(180 - self.heading() + randomize)
+        elif paddle.index == "l":
+            if self.distance(paddle) < 50 and self.xcor() < -340:
+                self.setheading(180 - self.heading() + randomize)
