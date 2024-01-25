@@ -36,6 +36,13 @@ class Snake:
         part.setposition(pos)
         self.snake_list.append(part)
 
+    def reset_snake(self):
+        for snake in self.snake_list:
+            snake.goto(1000, 1000)
+        self.snake_list.clear()
+        self.create_snake()
+        self.head = self.snake_list[0]
+
     def turn_up(self):
         if self.head.heading() != DOWN:
             self.head.setheading(UP)

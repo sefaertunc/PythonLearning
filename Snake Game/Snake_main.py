@@ -34,8 +34,8 @@ while is_game_on:
         scoreboard.increase_score()
 
     if snake.detect_collision_wall() or snake.detect_collision_snake():
-        scoreboard.game_over()
-        is_game_on = False
+        scoreboard.reset_scoreboard()
+        snake.reset_snake()
 
 
 screen.exitonclick()
