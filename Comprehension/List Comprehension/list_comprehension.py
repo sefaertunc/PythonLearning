@@ -13,7 +13,7 @@ print(new_range)
 new_range2 = [number for number in numbers if number % 2 == 0]
 print(new_range2)
 
-with open("../Mail Merge Project Start/Input/Names/invited_names.txt", "r") as names:
+with open("../../Mail Merge Project Start/Input/Names/invited_names.txt", "r") as names:
     sample_names = names.readlines()
 
 sample_names_list = [names.strip() for names in sample_names]
