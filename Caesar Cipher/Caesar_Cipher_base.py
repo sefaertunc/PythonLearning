@@ -1,6 +1,5 @@
 from alphabet import alphabet_list
 
-
 class Caesar_Cipher(object):
     def __init__(self):
         self.message = ""
