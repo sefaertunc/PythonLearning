@@ -20,7 +20,7 @@ class Caesar_Cipher(object):
         self.message = input("Type your message:\n").lower()
 
     def enter_shift(self):
-        self.shift = int(input("Type shift number:\n"))
+        self.shift = abs(int(input("Type shift number:\n")))
 
     def caesar_cipher(self):
         modified_text = ""
@@ -29,10 +29,7 @@ class Caesar_Cipher(object):
                 position = alphabet_list.index(letter)
                 new_position = 0
                 if self.direction == "encode":
-                    if (position + self.shift) > len(alphabet_list) - 1:
-                        new_position = (position + (self.shift % len(alphabet_list))) - len(alphabet_list)
-                    else:
-                        new_position = position + self.shift
+                    new_position = position + self.shift % len(alphabet_list)
                 elif self.direction == "decode":
                     new_position = position - self.shift % len(alphabet_list)
                 modified_text += alphabet_list[new_position]
