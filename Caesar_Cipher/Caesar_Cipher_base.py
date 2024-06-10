@@ -48,6 +48,7 @@ class Caesar_Cipher(object):
             return False
 
     def clear_data(self):
+        """Clear all data in the program to start new one"""
         self.message = ""
         self.direction = ""
         self.shift = 0

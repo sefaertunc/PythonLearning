@@ -10,6 +10,7 @@ class GuessNumber:
         self.lives = 0
         self.number = 0
         self.guessed_number = 0
+        self.isGameStart = False
         self.isOver = False
 
     def create_number(self):
@@ -21,6 +22,7 @@ class GuessNumber:
             self.lives = EASY_HEALTH
         else:
             self.lives = HARD_HEALTH
+        self.isGameStart = True
 
     def guess_number(self):
         print(f"You have {self.lives} attempts remaining to guess the number.")
@@ -35,10 +37,23 @@ class GuessNumber:
             self.lives -= 1
         else:
             print("Your guess is right. You win!")
-            self.isOver = True
+            self.try_again()
 
     def check_lives(self):
         if self.lives == 0:
             print(f"The number was {self.number}.")
             print("You don't have attempt to guess. You lost!")
+            self.try_again()
+
+    def try_again(self):
+        if input("Would you like to play again?").lower() == "y":
+            self.clean_game()
+            return
+        else:
             self.isOver = True
+
+    def clean_game(self):
+        self.create_number()
+        self.guessed_number = 0
+        self.isOver = False
+        self.isGameStart = False
