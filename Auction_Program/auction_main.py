@@ -1,34 +1,17 @@
-from Utilities import general_supplier as supplier
-import random as rand
+import auction_base
 
-player_count = 5
-player_bids = {}
-winner = ""
-highest_bid = 0
+the_game = auction_base.auction_base()
+the_player = auction_base.auction_main_player()
 
-print("Welcome to the Auction!")
+while not the_game.end_game:
+	the_game.choose_item()
+	the_game.end_game = the_player.add_bid(the_game.player_bids)
+	the_game.create_bids()
+	the_game.show_bids()
+	the_game.check_winner()
+	the_game.show_winner()
 
-while True:
-	player_name = input("What is your name? ").capitalize()
-	print(f"The item for auction is {rand.choice(supplier.objects)}.")
-	player_bid = int(input("What is your bid: "))
-	player_bids[player_name] = player_bid
+	the_game.end_game = the_game.another_game()
 
-	for num in range(player_count):
-		player_bids[rand.choice(supplier.names)] = rand.randint(10, 100)
-
-	for person in player_bids:
-		print(f"{person}'s bid is {player_bids[person]}.")
-
-	for person in player_bids:
-
-		if player_bids[person] > highest_bid:
-			winner = person
-			highest_bid = player_bids[person]
-
-	print(f"The winner is {winner} with {highest_bid}$ bid.")
-
-	winner = ""
-	highest_bid = 0
-	player_bids.clear()
-
+	the_game.clean_bids()
+	the_player.clean_bids()
