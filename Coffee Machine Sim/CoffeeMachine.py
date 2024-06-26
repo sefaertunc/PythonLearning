@@ -21,8 +21,8 @@ def request_check(user_input):
     global is_process_over
     if user_input == "report":
         money_machine.report()
-    elif user_input == "espresso" or user_input == "latte" or user_input == "cappuccino":
-        drink = menu.find_drink(user_input)
+    elif menu.find_drink(user_input):
+        drink = menu.get_items(user_input)
         if coffee_maker.is_resource_sufficient(drink):
             if money_machine.make_payment(drink.cost):
                 coffee_maker.make_coffee(drink)
