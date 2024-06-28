@@ -11,7 +11,7 @@ class QuizGameBrain:
         current_question = self.questions[self.question_id]
         self.question_id += 1
         answer = input(f"Q.{self.question_id}: {current_question.text} (true/false): ")
-        self.check_answer(answer,current_question.answer)
+        self.check_answer(answer, current_question.answer)
 
     def check_answer(self, user_answer, current_answer):
         if user_answer.lower() == current_answer.lower():
