@@ -1,3 +1,6 @@
+import random
+
+
 class GeneralSupplier:
 	def __init__(self):
 		self.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
@@ -11,5 +14,12 @@ class GeneralSupplier:
 						"wine glass", "house", "desk", "glass", "ice cube", "apple", "can of whipped cream",
 						"rusty nail", "mp3 player", "balloon",
 						"CD", "coffee mug", "extension cord", "rat", "banana"]
+		self.color = ["red", "green", "yellow", "blue", "magenta", "cyan", "black"]
 
 		self.PI = 3.14159
+
+	def get_random_color(self):
+		return random.choice(self.color)
+
+	def get_color_by_index(self, number):
+		return self.color[number]
