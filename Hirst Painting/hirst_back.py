@@ -21,7 +21,6 @@ class HirstBase(t.Turtle):
 				color = random.choice(colors)
 				self.color(color.rgb)
 				self.dot()
-				self.penup()
 				self.forward(self.step_size)
 			self.setposition(self.start_pos_index, self.start_pos_index + (i + 1) * self.step_size)
 
