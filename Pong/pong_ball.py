@@ -10,7 +10,7 @@ class Ball(Turtle):
         self.color("white")
         self.penup()
         self.setheading(10)
-        self.main_speed = 0.1
+        self.main_speed = 2
         self.speed = self.main_speed
         self.acceleration = 0.015
         self.random_rate = 20
