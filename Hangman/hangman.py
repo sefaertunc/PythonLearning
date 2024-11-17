@@ -8,6 +8,7 @@ class Hangman(object):
         self.lives = 6
         self.word = random.choice(word_list)
         self.length = len(self.word)
+        self.display_word(word_list)
 
     def replace_letter(self, guessed_letter, display_list):
         for pos in range(self.length):
