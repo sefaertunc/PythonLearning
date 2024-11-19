@@ -1,54 +1,34 @@
-from numpy.ma.core import swapaxes
-
-def add(a, b):
-    return a + b
-def subtract(a, b):
-    return a - b
-def multiply(a, b):
-    return a * b
-def divide(a, b):
-    return a / b
-
 operations = {
-    "+": add,
-    "-": subtract,
-    "*": multiply,
-    "/": divide
+    "+": lambda a, b: a + b,
+    "-": lambda a, b: a - b,
+    "*": lambda a, b: a * b,
+    "/": lambda a, b: a / b if b != 0 else "Cannot divide by zero"
 }
 
-while True:
-    while True:
-        try:
-            number_1 = int(input("enter a number: "))
-            break
-        except:
-            print("not a number")
 
+def get_number(prompt):
     while True:
         try:
-            operation = input("enter an operation: ")
-            if operation not in operations:
-                raise ValueError("Invalid operation")
-            break
+            return int(input(prompt))
         except ValueError:
-            print("Invalid operation")
+            print("Not a valid number. Try again.")
 
+
+def get_operation():
     while True:
-        try:
-            number_2 = int(input("enter another number: "))
-            break
-        except:
-            print("not a number")
+        operation = input("Enter an operation (+, -, *, /): ")
+        if operation in operations:
+            return operation
+        print("Invalid operation. Try again.")
 
-    try:
-        result = operations[operation](number_1, number_2)
-        print(f"Result: {result}")
-    except ZeroDivisionError:
-        print("Cannot divide by zero")
 
-    to_continue = input("Do you want to continue? (y/n): ")
-    try:
-        if to_continue.lower() != "y":
-            break
-    except:
-        continue
+while True:
+    num1 = get_number("Enter the first number: ")
+    op = get_operation()
+    num2 = get_number("Enter the second number: ")
+
+    result = operations[op](num1, num2)
+    print(f"Result: {result}")
+
+    if input("Do you want to continue? (y/n): ").lower() != "y":
+        break

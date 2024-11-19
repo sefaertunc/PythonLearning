@@ -43,13 +43,16 @@ class auction_base(object):
 	@staticmethod
 	def another_game(rest_money):
 		print(f"You have {rest_money} dollar left.")
-		answer = input("Would you like to bid another? (y/n) ").lower()
-		while answer != 'y' and answer != 'n':
+		while True:
 			answer = input("Would you like to bid another? (y/n) ").lower()
-		if answer == "y":
-			return False
-		elif answer == "n":
-			return True
+			if answer == 'y' or answer == 'n':
+				if answer == "y":
+					return False
+				elif answer == "n":
+					return True
+				break
+			print("Invalid Input")
+
 
 	def clean_bids(self):
 		self.player_bids.clear()
@@ -69,16 +72,28 @@ class auction_base(object):
 class auction_main_player(object):
 	def __init__(self):
 		self.player_name = input("What is your name? ").capitalize()
-		self.player_money = int(input("How many dollars do you have?"))
+		print("How many dollars do you have?")
+		self.player_money = self.integer_check()
 		self.items = []
 		self.player_bid = 0
 
 	def add_bid(self, var_bids_dic):
-		self.player_bid = int(input("What is your bid: "))
+		print("What is your bid: ")
+		self.player_bid = self.integer_check()
 		while self.player_bid > self.player_money:
 			print("You don't have enough money. Try again!")
-			self.player_bid = int(input("What is your bid: "))
+			self.player_bid = self.integer_check()
 		var_bids_dic[self.player_name] = self.player_bid
 
 	def clean_bids(self):
 		self.player_bid = 0
+
+	@staticmethod
+	def integer_check():
+		while True:
+			try:
+				var_integer = int(input())
+				break
+			except ValueError:
+				print("Invalid Input")
+		return var_integer
