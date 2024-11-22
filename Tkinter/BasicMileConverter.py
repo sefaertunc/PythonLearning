@@ -6,7 +6,7 @@ window.minsize(width=350, height=200)
 
 
 def converter():
-	distance = int(text_box.get())
+	distance = float(text_box.get())
 	distance *= 1.609344
 	kilometer_label['text'] = round(distance, 2)
 
