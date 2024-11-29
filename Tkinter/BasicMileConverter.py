@@ -1,32 +1,42 @@
-from tkinter import *
+import tkinter as tk
 
-window = Tk()
+
+def calculator():
+	try:
+		mile = user_input.get()
+		km = float(mile) * 1.60934
+		result["text"] = f"{km:.2f}"
+	except ValueError:
+		window2 = tk.Tk()
+		window2.title("Error")
+		window2.minsize(width=250, height=150)
+		error_message = tk.Label(window2, text="ERROR\nEnter a number", font=("Helvetica", 25, "bold"), fg="red")
+		error_message.place(x=35, y=50)
+		close_button = tk.Button(window2, text="Close", font=("Helvetica", 15), command=window2.destroy)
+		close_button.place(x=90, y=120)
+
+
+window = tk.Tk()
 window.title("Mile to Km Converter")
-window.minsize(width=350, height=200)
+window.minsize(width=350, height=150)
 
+user_input = tk.Entry(window, width=5)
+user_input.focus()
+user_input.place(x=150, y=40)
 
-def converter():
-	distance = float(text_box.get())
-	distance *= 1.609344
-	kilometer_label['text'] = round(distance, 2)
+static_word1 = tk.Label(window, text="Miles", font=("Helvetica", 15))
+static_word1.place(x=210, y=42)
 
+static_word2 = tk.Label(window, text="is equal to", font=("Helvetica", 15))
+static_word2.place(x=70, y=70)
 
-text_box = Entry(window, width=10)
-text_box.place(x=140, y=25)
+result = tk.Label(window, text="...", font=("Helvetica", 15, "bold"))
+result.place(x=155, y=70)
 
-miles_label = Label(window, text="Miles", font=("Arial", 18))
-miles_label.place(x=250, y=25)
+static_word3 = tk.Label(window, text="Km", font=("Helvetica", 15))
+static_word3.place(x=210, y=70)
 
-equals_label = Label(window, text="is equal to", font=("Arial", 18))
-equals_label.place(x=50, y=60)
-
-kilometer_label = Label(window, text="0", font=("Arial", 18))
-kilometer_label.place(x=160, y=60)
-
-km_label = Label(window, text="Km", font=("Arial", 18))
-km_label.place(x=250, y=60)
-
-button = Button(text="Calculate", command=converter, width=7, height=1, font=("Arial", 14))
-button.place(x=140, y=90)
+ok_button = tk.Button(window, text="Convert", font=("Helvetica", 15), command=calculator)
+ok_button.place(x=135, y=100)
 
 window.mainloop()
