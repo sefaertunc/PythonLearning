@@ -17,7 +17,7 @@ def save_data(file_path, data):
 
 
 # Function to add a new account
-def add_account(file_path, platform, email, password):
+def add_json_data(file_path, platform, email, password):
 	data = load_data(file_path)
 	new_account = {
 		"platform": platform,
@@ -31,7 +31,7 @@ def add_account(file_path, platform, email, password):
 # endregion
 
 # region TXT
-def add_data(file_path_txt, website, email, password):
+def add_text_data(file_path_txt, website, email, password):
 	with open(f"{file_path_txt}", "a") as data_file:
 		data_file.write(f"{website} | {email} | {password}\n")
 # endregion

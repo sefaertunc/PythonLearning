@@ -19,18 +19,16 @@ def generate_password():
 
 
 def add_datas():
-	print("In Method")
-	if website_entry.get() != "" and email_entry.get() != "" and password_entry.get() != "":
-		print("In Condition")
-		if messagebox.askokcancel(title=website_entry.get(),
+	if len(website_entry.get()) != 0 and len(email_entry.get()) != 0 and len(password_entry.get()) != 0:
+		is_ok = messagebox.askokcancel(title=website_entry.get(),
 								  message=f"E-mail: {email_entry.get()}\n Password: {password_entry.get()}\n Are you sure?",
-								  icon="warning"):
-			saver_mech.add_account(file_path_json, website_entry.get(), email_entry.get(), password_entry.get())
-			saver_mech.add_data(file_path_txt, website_entry.get(), email_entry.get(), password_entry.get())
+								  icon="warning")
+		if is_ok:
+			saver_mech.add_json_data(file_path_json, website_entry.get(), email_entry.get(), password_entry.get())
+			saver_mech.add_text_data(file_path_txt, website_entry.get(), email_entry.get(), password_entry.get())
+			clean_entries()
 	else:
 		messagebox.showinfo("Error", "Please fill in all the blanks!")
-
-	clean_entries()
 
 
 def clean_entries():
