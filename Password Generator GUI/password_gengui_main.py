@@ -24,7 +24,7 @@ def add_datas():
 								  message=f"E-mail: {email_entry.get()}\n Password: {password_entry.get()}\n Are you sure?",
 								  icon="warning")
 		if is_ok:
-			saver_mech.add_json_data(file_path_json, website_entry.get(), email_entry.get(), password_entry.get())
+			saver_mech.add_update_json_data(file_path_json, website_entry.get(), email_entry.get(), password_entry.get())
 			saver_mech.add_text_data(file_path_txt, website_entry.get(), email_entry.get(), password_entry.get())
 			clean_entries()
 	else:
@@ -51,8 +51,11 @@ website_label = tk.Label(window, text='Website:', font=(FONT_NAME, 15))
 website_label.grid(column=0, row=1)
 
 website_entry = tk.Entry(window, width=35)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry.grid(column=1, row=1, columnspan=3)
 website_entry.focus()
+
+search_button = tk.Button(window, text='Search')
+search_button.grid(column=2, row=1)
 
 email_label = tk.Label(window, text='Email:', font=(FONT_NAME, 15))
 email_label.grid(column=0, row=2)

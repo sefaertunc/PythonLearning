@@ -7,24 +7,31 @@ def load_data(file_path):
 		with open(file_path, "r") as file:
 			return json.load(file)
 	except FileNotFoundError:
-		return {"accounts": []}  # Return an empty structure if the file doesn't exist
+		return {"accounts": []}
 
 
-# Function to save JSON data
 def save_data(file_path, data):
 	with open(file_path, "w") as file:
 		json.dump(data, file, indent=4)
 
 
-# Function to add a new account
-def add_json_data(file_path, platform, email, password):
+def add_update_json_data(file_path, platform, email, password):
 	data = load_data(file_path)
-	new_account = {
-		"platform": platform,
-		"email": email,
-		"password": password
-	}
-	data["accounts"].append(new_account)
+	updated = False
+
+	for account in data["accounts"]:
+		if account["platform"] == platform and account["email"] == email:
+			account["password"] = password
+			updated = True
+			break
+
+	if not updated:
+		new_account = {
+			"platform": platform,
+			"email": email,
+			"password": password
+		}
+		data["accounts"].append(new_account)
 	save_data(file_path, data)
 
 
