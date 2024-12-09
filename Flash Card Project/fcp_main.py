@@ -9,9 +9,10 @@ word_file = pd.read_csv("fcp_data.csv")
 word_dic_list = word_file.to_dict(orient="records")
 
 
-def get_random_word(card_text):
+def get_random_word(card_text, card_canvas):
 	word = random.choice(word_dic_list)
-	flash_card_canvas.itemconfig(card_text, text=word["German"])
+	card_canvas.itemconfig(language_text, text="German")
+	card_canvas.itemconfig(card_text, text=word["German"])
 
 
 window = tk.Tk()
@@ -24,15 +25,15 @@ image = tk.PhotoImage(file="images/card_front.png")
 flash_card_canvas.create_image(400, 263, image=image)
 flash_card_canvas.grid(row=0, column=0, columnspan=2)
 
-language_text = flash_card_canvas.create_text(400, 150, text="German", font=(FONT_NAME, 40, "italic"), fill="black")
+language_text = flash_card_canvas.create_text(400, 150, text="Language", font=(FONT_NAME, 40, "italic"), fill="black")
 word_text = flash_card_canvas.create_text(400, 263, text="Word", font=(FONT_NAME, 60, "bold"), fill="black")
 
 right_image = tk.PhotoImage(file="images/right.png")
 wrong_image = tk.PhotoImage(file="images/wrong.png")
 right_button = tk.Button(window, image=right_image, background=BACKGROUND_COLOR, highlightthickness=0,
-						 command=lambda: get_random_word(word_text))
+						 command=lambda: get_random_word(word_text, flash_card_canvas))
 wrong_button = tk.Button(window, image=wrong_image, background=BACKGROUND_COLOR, highlightthickness=0,
-						 command=lambda: get_random_word(word_text))
+						 command=lambda: get_random_word(word_text, flash_card_canvas))
 wrong_button.grid(row=1, column=0)
 right_button.grid(row=1, column=1)
 
