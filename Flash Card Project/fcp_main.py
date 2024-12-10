@@ -1,4 +1,6 @@
 import random
+
+import pandas
 import pandas as pd
 import tkinter as tk
 from Utilities import general_supplier
@@ -10,9 +12,15 @@ supplier = general_supplier.GeneralSupplier()
 
 timer = None
 word_card = {}
+word_dic_list = {}
 
-word_file = pd.read_csv("fcp_data.csv")
-word_dic_list = word_file.to_dict(orient="records")
+try:
+	word_file = pd.read_csv("words_to_learn.csv")
+except FileNotFoundError:
+	original_data = pd.read_csv("fcp_data.csv")
+	word_dic_list = original_data.to_dict(orient="records")
+else:
+	word_dic_list = word_file.to_dict(orient="records")
 
 
 def get_random_word():
@@ -30,8 +38,12 @@ def flip_card():
 	flash_card_canvas.itemconfig(word_text, text=word_card["English"], fill="white")
 	flash_card_canvas.itemconfig(card_background, image=back_image)
 
-def know_the_word():
 
+def know_the_word():
+	word_dic_list.remove(word_card)
+	data = pandas.DataFrame(word_dic_list)
+	data.to_csv("words_to_learn.csv", index=False)
+	get_random_word()
 
 
 window = tk.Tk()
@@ -53,13 +65,12 @@ word_text = flash_card_canvas.create_text(400, 263, text="", font=(FONT_NAME, 60
 right_image = tk.PhotoImage(file="images/right.png")
 wrong_image = tk.PhotoImage(file="images/wrong.png")
 right_button = tk.Button(window, image=right_image, background=BACKGROUND_COLOR, highlightthickness=0,
-						 command=lambda: get_random_word())
+						 command=lambda: know_the_word())
 wrong_button = tk.Button(window, image=wrong_image, background=BACKGROUND_COLOR, highlightthickness=0,
 						 command=lambda: get_random_word())
 wrong_button.grid(row=1, column=0)
 right_button.grid(row=1, column=1)
 
 get_random_word()
-
 
 window.mainloop()
