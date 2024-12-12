@@ -1,0 +1,90 @@
+{
+   "CompTIA ITF+": {
+      "Box 1": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 2": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 3": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 4": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 5": {
+         "state": "gray",
+         "last_practice": null
+      }
+   },
+   "CompTIA A+": {
+      "Box 1": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 2": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 3": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 4": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 5": {
+         "state": "gray",
+         "last_practice": null
+      }
+   },
+   "CompTIA Net+": {
+      "Box 1": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 2": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 3": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 4": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 5": {
+         "state": "gray",
+         "last_practice": null
+      }
+   },
+   "CompTIA Sec+": {
+      "Box 1": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 2": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 3": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 4": {
+         "state": "gray",
+         "last_practice": null
+      },
+      "Box 5": {
+         "state": "gray",
+         "last_practice": null
+      }
+   }
+}

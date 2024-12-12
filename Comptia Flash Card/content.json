@@ -1,0 +1,48 @@
+{
+    "CompTIA ITF+": {
+        "Box1": [
+            "What is a CPU?",
+            "What is an Operating System?",
+            "What does BIOS stand for?"
+        ],
+        "Box2": [
+
+        ],
+        "Box3": [],
+        "Box4": [],
+        "Box5": []
+    },
+    "CompTIA A+": {
+        "Box1": [
+            "What is RAM?",
+            "What is a motherboard?",
+            "What is a power supply unit?"
+        ],
+        "Box2": [],
+        "Box3": [],
+        "Box4": [],
+        "Box5": []
+    },
+    "CompTIA Net+": {
+        "Box1": [
+            "What does DNS stand for?",
+            "What is an IP address?",
+            "What is a MAC address?"
+        ],
+        "Box2": [],
+        "Box3": [],
+        "Box4": [],
+        "Box5": []
+    },
+    "CompTIA Sec+": {
+        "Box1": [
+            "What is a firewall?",
+            "What is encryption?",
+            "What is a VPN?"
+        ],
+        "Box2": [],
+        "Box3": [],
+        "Box4": [],
+        "Box5": []
+    }
+}
