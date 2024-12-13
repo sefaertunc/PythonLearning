@@ -18,6 +18,7 @@ def send_quote():
 		# Prepare the email
 		msg = f"Subject: MONDAY QUOTE\n\n{rd.choice(quotes)}"
 		connection.sendmail(from_addr=MY_EMAIL, to_addrs="sefaertnc@gmail.com", msg=msg)
+		connection.sendmail(from_addr=MY_EMAIL, to_addrs="yasemencelik91@gmail.com ", msg=msg)
 		print("Email sent successfully!")
 
 	except Exception as e:
@@ -27,5 +28,5 @@ def send_quote():
 		connection.close()
 
 
-if dt.datetime.now().isoweekday() == 5:
+if dt.datetime.now().isoweekday() == 1:
 	send_quote()
