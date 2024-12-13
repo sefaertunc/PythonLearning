@@ -12,7 +12,6 @@ PLACEHOLDER = "[NAME]"
 try:
 	birthday_data = pd.read_csv('birthdays.csv')
 	birthday_dic = birthday_data.set_index("name").T.to_dict(orient="list")
-	print(birthday_dic)
 except FileNotFoundError as e1:
 	print(f"An error occurred: {e1}")
 
