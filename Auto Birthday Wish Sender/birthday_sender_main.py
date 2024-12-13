@@ -3,15 +3,15 @@ import pandas as pd
 import smtplib
 import random as rd
 
-MY_EMAIL = "sefaertnc@gmail.com"
-PASSWORD = "jpgz hqks zfjq vcbz"
-NOW = dt.datetime.now()
+MY_EMAIL = "sample.learning.24@gmail.com"
+PASSWORD = "bcob jaze etre qstd"
+today_month = dt.datetime.now().month
+today_day = dt.datetime.now().day
 PLACEHOLDER = "[NAME]"
-letter_list = []
 
 try:
 	birthday_data = pd.read_csv('birthdays.csv')
-	birthday_dic = birthday_data.to_dict()
+	birthday_dic = birthday_data.set_index("name").T.to_dict(orient="list")
 	print(birthday_dic)
 except FileNotFoundError as e1:
 	print(f"An error occurred: {e1}")
@@ -34,15 +34,9 @@ def sent_birthday_mail(name, mail):
 
 
 def check_the_date():
-	for num in range(len(birthday_dic["month"])):
-		print(num)
-		if NOW.month == birthday_dic["month"][num]:
-			for num2 in range(len(birthday_dic["day"])):
-				print(num2)
-				if NOW.day == birthday_dic["day"][num2]:
-					name = birthday_dic["name"][num2]
-					mail = birthday_dic["email"][num2]
-					print(f"{name} {mail}")
+	for ind in birthday_dic:
+		if birthday_dic[ind][2] == today_month and birthday_dic[ind][3] == today_day:
+			sent_birthday_mail(ind, birthday_dic[ind][0])
 
 
 def prepare_mail(name):
@@ -54,7 +48,7 @@ def prepare_mail(name):
 			new_letter = letter_content.replace(PLACEHOLDER, name)
 	except FileNotFoundError as e3:
 		print(f"An error occurred: {e3}")
-	finally:
+	else:
 		return new_letter
 
 
