@@ -1,6 +1,8 @@
 import question_database as qdb
 import trivia_ui as tui
+from Utilities import general_supplier
 
+supplier = general_supplier.GeneralSupplier()
 
 class TriviaBrain:
 	def __init__(self):
@@ -22,17 +24,23 @@ class TriviaBrain:
 			self.__score += 1
 			self.__gameUI.current_score["text"] = f"Score: {self.__score}"
 			self.__save_score()
+			self.__change_background("green")
 		else:
 			print("Wrong answer!")
+			self.__change_background("red")
+		self.update_question()
+
+	def __change_background(self, color):
+		print("Changing background...")
+		self.__gameUI.question_canvas.config(background=color)
+
 
 	def __save_score(self):
-		if self.__score > self.__high_score:
-			self.__gameUI.high_score["text"] = f"Score: {self.__high_score}"
-			try:
-				with open("score.txt", "w") as high_score_file:
-					high_score_file.write(str(self.__score))
-			except FileNotFoundError as e:
-				print(e)
+		if self.__score >= self.__high_score:
+			self.__high_score = self.__score
+			self.__gameUI.high_score["text"] = f"High Score: {self.__high_score}"
+			with open("score.txt", "w") as high_score_file:
+				high_score_file.write(str(self.__score))
 
 	def __initial_settings(self):
 		self.__gameUI.true_button.config(command=lambda: self.check_the_answer("True"))
@@ -41,10 +49,13 @@ class TriviaBrain:
 			with open("score.txt", "r") as high_score_file:
 				score = high_score_file.read()
 				self.__high_score = int(score)
-				print(self.__high_score)
 		except FileNotFoundError:
+			print("Score file not found!")
 			with open("score.txt", "w") as high_score_file:
 				high_score_file.write(str(self.__high_score))
+		finally:
+			self.__gameUI.high_score["text"] = f"High Score: {self.__high_score}"
+			self.__gameUI.current_score["text"] = f"Score: {self.__score}"
 
 	def get_main_loop(self):
 		self.__gameUI.window.mainloop()

@@ -1,8 +1,6 @@
 import tkinter as tk
-from Utilities import general_supplier
 
-__supplier = general_supplier.GeneralSupplier()
-BACKGROUND = __supplier.get_color_hex_by_name("black")
+BACKGROUND = "#3E5879"
 
 
 class TriviaUI:
@@ -24,10 +22,10 @@ class TriviaUI:
         )
 
         # Labels
-        self.current_score = tk.Label(text="Score:", font=("Helvetica", 15), bg=BACKGROUND, fg="black")
+        self.current_score = tk.Label(text="Score:", font=("Helvetica", 18, "bold"), bg=BACKGROUND, fg="black")
         self.current_score.grid(row=0, column=1)
 
-        self.high_score = tk.Label(text="High Score", font=("Helvetica", 15), bg=BACKGROUND, fg="black")
+        self.high_score = tk.Label(text="High Score", font=("Helvetica", 18, "bold"), bg=BACKGROUND, fg="black")
         self.high_score.grid(row=0, column=0)
 
         # Buttons with Images
