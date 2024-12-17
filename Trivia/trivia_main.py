@@ -1,9 +1,8 @@
-import trivia_ui
 import trivia_brain
-import tkinter as tk
+
+brain = trivia_brain.TriviaBrain()
 
 
-game_ui = trivia_ui.TriviaUI()
-brain_ui = trivia_brain.TriviaBrain()
 
 
+brain.get_main_loop()
