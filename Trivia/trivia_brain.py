@@ -28,12 +28,15 @@ class TriviaBrain:
 		else:
 			print("Wrong answer!")
 			self.__change_background("red")
-		self.update_question()
 
 	def __change_background(self, color):
 		print("Changing background...")
 		self.__gameUI.question_canvas.config(background=color)
+		self.__gameUI.question_canvas.after(1000, lambda: self.__reset_background())
 
+	def __reset_background(self):
+		self.__gameUI.question_canvas.config(background="white")
+		self.update_question()
 
 	def __save_score(self):
 		if self.__score >= self.__high_score:
