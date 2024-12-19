@@ -1,15 +1,18 @@
 import time
-
+import os
+from dotenv import load_dotenv
 import requests
 import datetime as dt
 import math
 import smtplib
 
+load_dotenv("../.venv/.env")
+
 MY_LAT = 50.200321
 MY_LNG = -169.420788
 MY_TIME = int(dt.datetime.now().hour)
 MY_EMAIL = "sample.learning.24@gmail.com"
-PASSWORD = "bcob jaze etre qstd"
+PASSWORD = os.getenv("APP_PASSWORD")
 
 parameters = {
     "lat": MY_LAT,
