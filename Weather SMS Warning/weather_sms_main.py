@@ -2,7 +2,7 @@ import requests as rq
 import os
 from dotenv import load_dotenv
 
-load_dotenv("../Utilities/.env")
+load_dotenv("../.venv/.env")
 
 main_domain = "https://api.openweathermap.org/data/2.5/forecast"
 weather_params = {
