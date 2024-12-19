@@ -1,8 +1,10 @@
 import question_database as qdb
 import trivia_ui as tui
 from Utilities import general_supplier
+import html
 
 supplier = general_supplier.GeneralSupplier()
+
 
 class TriviaBrain:
 	def __init__(self):
@@ -17,7 +19,8 @@ class TriviaBrain:
 	def update_question(self):
 		print("Updating question...")
 		self.__current_question = self.__database.get_random_question()
-		self.__gameUI.question_canvas.itemconfig(self.__gameUI.question_canvas_text, text=self.__current_question[0])
+		self.__gameUI.question_canvas.itemconfig(self.__gameUI.question_canvas_text,
+												 text=html.unescape(self.__current_question[0]))
 
 	def check_the_answer(self, answer):
 		if answer == self.__current_question[1]:
