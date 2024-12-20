@@ -22,6 +22,7 @@ def get_operation():
         print("Invalid operation. Try again.")
 
 
+
 while True:
     num1 = get_number("Enter the first number: ")
     op = get_operation()
