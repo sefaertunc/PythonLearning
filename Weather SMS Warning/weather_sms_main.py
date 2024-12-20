@@ -11,13 +11,12 @@ twilio_phone = os.getenv("TWILIO_NUMBER")
 
 client = Client(twilio_account_sid, twilio_auth_token)
 
-main_domain = "https://api.openweathermap.org/data/2.5/forecast"
+main_domain = "https://api.openweathermap.org/data/2.5/weather"
 weather_params = {
 	"lat": -19.258965,
 	"lon": 146.816956,
 	"appid": app_id,
 	"units": "metric",
-	"cnt": 4
 }
 
 
@@ -34,9 +33,7 @@ weather = rq.get(main_domain, params=weather_params)
 weather.raise_for_status()
 weather_json = weather.json()
 
-for days in weather_json["list"]:
-	state = days["weather"][0]
-	state_id = state["id"]
-	if state_id < 700:
-		send_SMS(state["main"])
-		break
+
+state = weather_json["weather"][0]["main"]
+send_SMS(state)
+
