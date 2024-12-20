@@ -5,7 +5,7 @@ import random as rd
 import os
 from dotenv import load_dotenv
 
-load_dotenv("../venv/env")
+load_dotenv("../.venv/.env")
 
 MY_EMAIL = "sample.learning.24@gmail.com"
 PASSWORD = os.getenv("GMAIL_APP_PASS")

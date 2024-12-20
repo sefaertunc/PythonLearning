@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from twilio.rest import Client
 
-load_dotenv("../venv/env")
+load_dotenv("../.venv/.env")
 app_id = os.getenv("WEATHER_API_KEY")
 twilio_account_sid = os.getenv("TWILIO_ACC_SID")
 twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN")
