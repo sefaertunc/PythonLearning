@@ -6,10 +6,10 @@ import datetime as dt
 import math
 import smtplib
 
-load_dotenv("../.venv/.env")
+load_dotenv("../venv/.env")
 
-MY_LAT = 50.200321
-MY_LNG = -169.420788
+MY_LAT = -51.200321
+MY_LNG = 145.420788
 MY_TIME = int(dt.datetime.now().hour)
 MY_EMAIL = "sample.learning.24@gmail.com"
 PASSWORD = os.getenv("APP_PASSWORD")

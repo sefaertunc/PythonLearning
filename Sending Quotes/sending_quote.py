@@ -1,9 +1,13 @@
 import smtplib
 import random as rd
 import datetime as dt
+import os
+from dotenv import load_dotenv
+
+load_dotenv("../venv/.env")
 
 MY_EMAIL = "sample.learning.24@gmail.com"
-PASSWORD = "bcob jaze etre qstd"
+PASSWORD = os.getenv("APP_PASSWORD")
 
 
 def send_quote():
@@ -18,7 +22,7 @@ def send_quote():
 		# Prepare the email
 		msg = f"Subject: MONDAY QUOTE\n\n{rd.choice(quotes)}"
 		connection.sendmail(from_addr=MY_EMAIL, to_addrs="sefaertnc@gmail.com", msg=msg)
-		connection.sendmail(from_addr=MY_EMAIL, to_addrs="yasemencelik91@gmail.com ", msg=msg)
+		# connection.sendmail(from_addr=MY_EMAIL, to_addrs="yasemencelik91@gmail.com ", msg=msg)
 		print("Email sent successfully!")
 
 	except Exception as e:
@@ -28,5 +32,5 @@ def send_quote():
 		connection.close()
 
 
-if dt.datetime.now().isoweekday() == 1:
+if dt.datetime.now().isoweekday() == 5:
 	send_quote()

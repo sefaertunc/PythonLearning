@@ -2,9 +2,13 @@ import datetime as dt
 import pandas as pd
 import smtplib
 import random as rd
+import os
+from dotenv import load_dotenv
+
+load_dotenv("../venv/.env")
 
 MY_EMAIL = "sample.learning.24@gmail.com"
-PASSWORD = "bcob jaze etre qstd"
+PASSWORD = os.getenv("APP_PASSWORD")
 today_month = dt.datetime.now().month
 today_day = dt.datetime.now().day
 PLACEHOLDER = "[NAME]"
