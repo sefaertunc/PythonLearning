@@ -1,7 +1,8 @@
-import os
-import requests
+import datetime as dt
 from dotenv import load_dotenv
 import math
+import os
+import requests
 from twilio.rest import Client
 
 load_dotenv("../.venv/.env")
@@ -81,8 +82,7 @@ def send_SMS():
 
 
 news_response = requests.get(API_ENDPOINT, params=stock_news_params)
-print(news_response.url)
 values_response = requests.get(API_ENDPOINT, params=stock_value_params)
-print(values_response.url)
 
-send_SMS()
+if dt.datetime.now().hour == 7:
+    send_SMS()
