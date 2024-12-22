@@ -8,6 +8,7 @@ app_id = os.getenv("WEATHER_API_KEY")
 twilio_account_sid = os.getenv("TWILIO_ACC_SID")
 twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN")
 twilio_phone = os.getenv("TWILIO_NUMBER")
+my_number = os.getenv("MY_NUMBER")
 
 client = Client(twilio_account_sid, twilio_auth_token)
 
@@ -24,7 +25,7 @@ def send_SMS(status):
 	message = client.messages.create(
 		body=f"Today is {status}",
 		from_=twilio_phone,
-		to="+436601166144",
+		to=my_number,
 	)
 	print(message.status)
 
