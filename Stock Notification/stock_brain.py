@@ -1,88 +1,103 @@
+import os
+import math
 import datetime as dt
 from dotenv import load_dotenv
-import math
-import os
-import requests
 from twilio.rest import Client
-
-load_dotenv("../.venv/.env")
-
-STOCK_NAME = "TSLA"
-COMPANY_NAME = "Tesla Inc"
-
-API_ENDPOINT = "https://www.alphavantage.co/query"
-API_KEY = os.getenv("ALPHAVANTAGE")
-
-twilio_account_sid = os.getenv("TWILIO_ACC_SID")
-twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-twilio_phone = os.getenv("TWILIO_NUMBER")
-my_number = os.getenv("MY_NUMBER")
-
-client = Client(twilio_account_sid, twilio_auth_token)
-
-stock_value_params = {
-    "function": "TIME_SERIES_DAILY",
-    "symbol": STOCK_NAME,
-    "outputsize": "compact",
-    "datatype": "json",
-    "apikey": API_KEY,
-}
-
-stock_news_params = {
-    "function": "NEWS_SENTIMENT",
-    "tickers": STOCK_NAME,
-    "time_from": "20240101T0130",
-    "apikey": API_KEY,
-    "sort": "RELEVANCE",
-    "limit": 50
-}
+import requests
 
 
-def check_stock_value():
-    """Return a tuple (Value Information, Relevant Two News)"""
-    data = values_response.json()["Time Series (Daily)"]
-    dates = list(data.keys())
-    close1 = float(data[dates[0]]["4. close"])
-    close2 = float(data[dates[1]]["4. close"])
-    difference_nor = close1 - close2
-    difference_abs = math.fabs(close1 - close2)
-    percentage_dif = 100 * (close1 / close2 - 1)
-    news_data = news_response.json()["feed"]
-    news_dic = {
-        "news": [
+class StockNotifier:
+    def __init__(self, stock_name, company_name):
+        load_dotenv("../.venv/.env")
+
+        self.__stock_name = stock_name
+        self.__company_name = company_name
+
+        self.__api_endpoint = "https://www.alphavantage.co/query"
+        self.__api_key = os.getenv("ALPHAVANTAGE")
+
+        self.__twilio_account_sid = os.getenv("TWILIO_ACC_SID")
+        self.__twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+        self.__twilio_phone = os.getenv("TWILIO_NUMBER")
+        self.__my_number = os.getenv("MY_NUMBER")
+
+        self.__client = Client(self.__twilio_account_sid, self.__twilio_auth_token)
+
+    def __fetch_stock_data(self):
+        params = {
+            "function": "TIME_SERIES_DAILY",
+            "symbol": self.__stock_name,
+            "outputsize": "compact",
+            "datatype": "json",
+            "apikey": self.__api_key,
+        }
+        response = requests.get(self.__api_endpoint, params=params)
+        response.raise_for_status()
+        return response.json()["Time Series (Daily)"]
+
+    def __fetch_news_data(self):
+        params = {
+            "function": "NEWS_SENTIMENT",
+            "tickers": self.__stock_name,
+            "time_from": "20240101T0130",
+            "apikey": self.__api_key,
+            "sort": "RELEVANCE",
+            "limit": 50,
+        }
+        response = requests.get(self.__api_endpoint, params=params)
+        response.raise_for_status()
+        return response.json()["feed"]
+
+    def __analyze_stock(self):
+        data = self.__fetch_stock_data()
+        dates = list(data.keys())
+        close1 = float(data[dates[0]]['4. close'])
+        close2 = float(data[dates[1]]['4. close'])
+
+        difference_nor = close1 - close2
+        difference_abs = math.fabs(difference_nor)
+        percentage_dif = 100 * (close1 / close2 - 1)
+
+        trend = "up" if difference_nor > 0 else "down"
+        symbol = "🔼" if trend == "up" else "🔽"
+
+        return f"{self.__stock_name} {trend} over {symbol}${difference_abs:.2f} - {symbol}{percentage_dif:.2f}%"
+
+    def __prepare_news(self):
+        news_data = self.__fetch_news_data()
+        return [
             {
-                "title": news_data[0]["title"],
-                "summary": news_data[0]["summary"],
-                "url": news_data[0]["url"],
-            },
-            {
-                "title": news_data[1]["title"],
-                "summary": news_data[1]["summary"],
-                "url": news_data[1]["url"],
+                "title": news["title"],
+                "summary": news["summary"],
+                "url": news["url"]
             }
+            for news in news_data[:2]
         ]
-    }
-    if difference_nor > 0:
-        return_tuple = (f"{STOCK_NAME} up over 🔼${difference_abs:.2f} - 🔺{percentage_dif:.2f}%", news_dic)
-        return return_tuple
-    else:
-        return_tuple = (f"{STOCK_NAME} down over 🔽${difference_abs:.2f} - 🔻{percentage_dif:.2f}%", news_dic)
-        return return_tuple
+
+    def __compose_message(self):
+        stock_analysis = self.__analyze_stock()
+        news = self.__prepare_news()
+
+        messages = []
+        for i, article in enumerate(news):
+            message = (
+                f"{stock_analysis}\n"
+                f"News {i + 1}: {article['title']}\n"
+                f"Summary: {article['summary']}\n"
+                f"{article['url']}\n"
+            )
+            messages.append(message)
+        return "\n".join(messages)
+
+    def send_sms(self):
+        message_body = self.__compose_message()
+        message = self.__client.messages.create(
+            body=message_body,
+            from_=self.__twilio_phone,
+            to=self.__my_number,
+        )
+        print(f"Message sent with SID: {message.sid}")
 
 
-def send_SMS():
-    data = check_stock_value()
-    msg_part1= f"{data[0]}\nNews1:{data[1]['news'][0]['title']}\nSummary:{data[1]['news'][0]['summary']}\n{data[1]['news'][0]['url']}\n"
-    msg_part2 = f"{data[0]}\nNews1:{data[1]['news'][1]['title']}\nSummary:{data[1]['news'][1]['summary']}\n{data[1]['news'][1]['url']}\n"
-    message = client.messages.create(
-        body=msg_part1+msg_part2,
-        from_=twilio_phone,
-        to=my_number,
-    )
-
-
-news_response = requests.get(API_ENDPOINT, params=stock_news_params)
-values_response = requests.get(API_ENDPOINT, params=stock_value_params)
-
-if dt.datetime.now().hour == 7:
-    send_SMS()
+if __name__ == "__main__":
+    print("This code is being run directly.")
