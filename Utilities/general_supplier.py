@@ -58,7 +58,7 @@ class GeneralSupplier:
 
     def get_color_hex_by_name(self, name):
         """red, green, yellow, blue, magenta, orange, black, white, purple, cyan, pink, brown, gray, teal, beige"""
-        return self.__color_dict[str(name)]
+        return self.__color_dict[str(name.lower())]
 
     def get_random_letter(self):
         return random.choice(self.__alphabet)

@@ -2,9 +2,7 @@ import requests as rq
 import datetime as dt
 
 from pixela_UI import PixelaUI
-from pixela_base import PixelaBase
 
-pixBase = PixelaBase().get_instance()
 pixUI = PixelaUI()
 
 # region Graph Creating Data
