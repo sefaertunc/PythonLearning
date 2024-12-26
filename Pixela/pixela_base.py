@@ -6,6 +6,7 @@ from pixela_UI import PixelaUI
 import requests as rq
 import tkinter as tk
 from tkinter import messagebox
+import webbrowser
 
 
 class PixelaBase:
@@ -59,6 +60,8 @@ class PixelaBase:
             messagebox.showinfo(title="Pixela", message="Please click the button again.")
             return
 
+    def __show_graph_image(self):
+        webbrowser.open(self.GRAPH_ENDPOINT)
 
     def __send_request(self, method, url, data=None):
         """
