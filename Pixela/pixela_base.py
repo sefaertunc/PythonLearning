@@ -25,10 +25,16 @@ class PixelaBase:
             "X-USER-TOKEN": self.__USER_TOKEN,
         }
         self.__initial_settings()
+        self.__show_statistics()
+        print(rq.get(f"{self.GRAPH_ENDPOINT}/20241226", headers=self.__header).url)
 
     def __check_stat(self, date):
-        stat = rq.get(f"{self.GRAPH_ENDPOINT}/{date}", headers=self.__header)
-        return stat.status_code
+        code = 0
+        while not code==200:
+            stat = rq.get(f"{self.GRAPH_ENDPOINT}/{date}", headers=self.__header)
+            if stat.status_code == 200:
+                code = stat.status_code
+        return code
 
     def __update_stat(self, date, quantity):
         """
@@ -48,6 +54,7 @@ class PixelaBase:
         else:
             messagebox.showinfo(title="Pixela", message="Please click the button again.")
             return
+        self.__show_statistics()
 
     def __delete_stat(self, date):
         status = self.__check_stat(date)
@@ -59,9 +66,22 @@ class PixelaBase:
         else:
             messagebox.showinfo(title="Pixela", message="Please click the button again.")
             return
+        self.__show_statistics()
 
     def __show_graph_image(self):
         webbrowser.open(self.GRAPH_ENDPOINT)
+
+    def __show_detailed_graph(self):
+        webbrowser.open(f"{self.GRAPH_ENDPOINT}.html")
+
+    def __show_statistics(self):
+        canvas = self.__pixUI.stats_canvas
+        stats = rq.get(f"{self.GRAPH_ENDPOINT}/stats").json()
+        canvas.itemconfig(self.__pixUI.stats_values,text=f"{stats['todaysQuantity']}  min\n\n"
+                                                         f"{stats['avgQuantity']}  min\n\n"
+                                                         f"{stats['maxQuantity']}  min\n\n"
+                                                         f"{stats['minQuantity']}  min\n\n"
+                                                         f"{stats['totalQuantity']}  min\n\n")
 
     def __send_request(self, method, url, data=None):
         """
@@ -107,6 +127,7 @@ class PixelaBase:
                                                                                   self.__pixUI.duration_entry.get())))
         self.__pixUI.delete_button.config(command=lambda: self.__delete_stat(date=str(self.__pixUI.date_entry.get())))
         self.__pixUI.graph_button.config(command=lambda: self.__show_graph_image())
+        self.__pixUI.detailed_graph_button.config(command=lambda: self.__show_detailed_graph())
 
     def get_mainloop(self):
         self.__pixUI.window.mainloop()

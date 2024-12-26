@@ -52,11 +52,14 @@ class PixelaUI:
         self.detailed_graph_button.grid(row=3, column=0, columnspan=2, padx=3, pady=3, sticky="nsew")
 
         # Statistics Canvas
-        self.stats_canvas = tk.Canvas(self.window, width=200, height=200, bg="lightyellow", highlightthickness=1)
+        self.stats_canvas = tk.Canvas(self.window, width=70, height=200, bg="lightyellow", highlightthickness=1)
         self.stats_canvas.grid(row=0, column=2, rowspan=4, padx=5, pady=5, sticky="nsew")
 
-        self.stats_canvas.create_text(
-            100, 100, text="Statistics", fill="black", font=("Helvetica", 10, "bold")
+        self.stats_title = self.stats_canvas.create_text(
+            40, 100, text="Today: \n\nAverage: \n\nMax: \n\nMin: \n\nTotal: ", fill="black", font=("Helvetica", 10, "bold"),width=70,
+        )
+        self.stats_values = self.stats_canvas.create_text(
+            110,117 , text="0  min\n\n0  min\n\n0  min\n\n0  min\n\n0  min\n\n", fill="black", font=("Helvetica", 10, "bold"),width=90,
         )
 
         # Grid Configuration
