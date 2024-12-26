@@ -1,9 +1,9 @@
+from dotenv import load_dotenv
 import os
+from pixela_UI import PixelaUI
+import requests as rq
 import tkinter as tk
 from tkinter import messagebox
-from dotenv import load_dotenv
-import requests as rq
-from pixela_UI import PixelaUI
 
 
 class PixelaBase:
@@ -63,17 +63,19 @@ class PixelaBase:
             messagebox.showinfo(title=f"{response.status_code}", message="The data is successfully updated.")
             self.__clean_entries()
 
-    def get_mainloop(self):
-        self.__pixUI.window.mainloop()
-
     def __clean_entries(self):
         self.__pixUI.date_entry.delete(0, tk.END)
+        self.__pixUI.date_entry.focus_set()
         self.__pixUI.duration_entry.delete(0, tk.END)
+
 
     def __initial_settings(self):
         self.__pixUI.upgrade_button.config(command=lambda: self.__update_stat(date=str(self.__pixUI.date_entry.get()),
                                                                               quantity=str(
-                                                                                self.__pixUI.duration_entry.get())))
+                                                                                  self.__pixUI.duration_entry.get())))
+
+    def get_mainloop(self):
+        self.__pixUI.window.mainloop()
 
     @staticmethod
     def get_instance():
