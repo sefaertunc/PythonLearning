@@ -1,14 +1,19 @@
 from bs4 import BeautifulSoup
 import datetime as dt
+from dotenv import load_dotenv
 import requests as rq
 import spotipy
 from numpy.f2py.crackfortran import myeval
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
+import os
+
+load_dotenv("../.venv/.env")
+
 
 scope = "playlist-modify-private"
-my_id = "36da0e70b81144c082ee728add2ca608"
-my_secret = "ea270cdba28f4c14a12a85220454d1f4"
+my_id = os.getenv("SPOTIFY_ID")
+my_secret = os.getenv("SPOTIFY_SECRET")
 my_username = "sefaertunc3"
 
 
@@ -19,7 +24,7 @@ sp = spotipy.Spotify(
         client_id=my_id,
         client_secret=my_secret,
         show_dialog=True,
-        cache_path="token.txt",
+        cache_path=".token.txt",
         username=my_username,
     )
 )
