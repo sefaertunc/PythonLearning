@@ -3,18 +3,14 @@ import datetime as dt
 from dotenv import load_dotenv
 import requests as rq
 import spotipy
-from numpy.f2py.crackfortran import myeval
-from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 import os
 
 load_dotenv("../.venv/.env")
 
-
 scope = "playlist-modify-private"
 my_id = os.getenv("SPOTIFY_ID")
 my_secret = os.getenv("SPOTIFY_SECRET")
-my_username = "sefaertunc3"
 
 
 sp = spotipy.Spotify(
@@ -25,16 +21,17 @@ sp = spotipy.Spotify(
         client_secret=my_secret,
         show_dialog=True,
         cache_path=".token.txt",
-        username=my_username,
     )
 )
-user_id = sp.current_user()["id"]
 
+
+my_username = sp.current_user()["id"]
 END_POINT = "https://www.billboard.com/charts/hot-100/"
 header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0"}
 now_date = dt.datetime.now().date().strftime("%Y%m%d")
 min_date = 19580804
-date = "20250104"
+date = ""
+songs_uris = []
 
 
 def user_input():
@@ -52,13 +49,32 @@ def user_input():
         except ValueError as e:
             print(e)
 
-#user_input()
+def get_songs():
+    list_end_point = f"{END_POINT}{date[:4]}-{date[4:6]}-{date[6:]}"
+    response = rq.get(list_end_point, headers=header)
+    soup = BeautifulSoup(response.text, "html.parser")
+    all_list_items = soup.find_all(name="ul",class_="lrv-a-unstyle-list lrv-u-flex lrv-u-height-100p lrv-u-flex-direction-column@mobile-max")
+    songs = {item.find(name="span").text.strip():item.find(name="h3").text.strip() for item in all_list_items}
+    return songs
 
-LIST_END_POINT = f"{END_POINT}{date[:4]}-{date[4:6]}-{date[6:]}"
-response = rq.get(LIST_END_POINT, headers=header)
-soup = BeautifulSoup(response.text, "html.parser")
-all_list_items = soup.find_all(name="ul",class_="lrv-a-unstyle-list lrv-u-flex lrv-u-height-100p lrv-u-flex-direction-column@mobile-max")
-songs_dic = {item.find(name="span").text.strip():item.find(name="h3").text.strip() for item in all_list_items}
 
-# item = all_list_items[0].find(name="h3",id="title-of-a-story")
-# top_100_list = {item.find(name="span",id="title-of-a-story"):item.find(name="h3",id="title-of-a-story") for item in all_list_items}
+def get_song_uris():
+    for value in get_songs().values():
+        result = sp.search(q=f"track:{value} year:{date[0:4]}", type="track", limit=1)
+        try:
+            the_uri = result["tracks"]["items"][0]["uri"]
+            songs_uris.append(the_uri)
+        except IndexError:
+            print(f"{value} is not a valid track id.")
+
+def add_songs_toList():
+    playlists = { item["name"]:item["id"] for item in sp.user_playlists(my_username)["items"]}
+    sample_list_uri = list(playlists.values())[0]
+    for uri in songs_uris:
+        sp.playlist_add_items(sample_list_uri, uri)
+
+
+user_input()
+get_songs()
+get_song_uris()
+add_songs_toList()
