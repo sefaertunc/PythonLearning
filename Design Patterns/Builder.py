@@ -95,8 +95,6 @@ class Director:
 
 sample_builder = CustomProductBuilder()
 sample_director = Director(sample_builder)
-sample_director2 = Director(sample_builder)
-print(sample_director == sample_director2)
 
 sample_productA = sample_director.buildProductA()
 sample_productB = sample_director.buildProductB()
