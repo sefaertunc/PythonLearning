@@ -1,5 +1,13 @@
 import requests as rq
 from bs4 import BeautifulSoup
+import smtplib
+import os
+from dotenv import load_dotenv
+
+load_dotenv("../.venv/.env")
+SENDING_EMAIL = "sample.learning.24@gmail.com"
+RECEIVING_EMAIL = "sefaertnc@gmail.com"
+GMAIL_PASSWORD = os.getenv("GMAIL_APP_PASS")
 
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36',
@@ -21,5 +29,9 @@ soup = BeautifulSoup(response.text, "html.parser")
 
 price_str = soup.find("span", attrs={"class":"a-offscreen"}).get_text()
 price = float(price_str.split("€")[0].replace(",", "."))
-print(price)
+
+
+connection = smtplib.SMTP("smtp.gmail.com", 587)
+connection.starttls()
+connection.login(user=SENDING_EMAIL, password=GMAIL_PASSWORD)
 
