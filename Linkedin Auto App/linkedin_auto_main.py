@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 
 from dotenv import load_dotenv
@@ -22,3 +23,9 @@ sign_in_button = driver.find_element(By.CSS_SELECTOR, ".btn__primary--large.from
 username_blank.send_keys("sefaertnc@gmail.com")
 password_blank.send_keys(os.getenv("EMAIL_PASS"))
 sign_in_button.click()
+
+jobs_button = WebDriverWait(driver, 5).until(
+    EC.element_to_be_clickable((By.XPATH, '//*[@id="global-nav"]/div/nav/ul/li[3]/a'))
+)
+
+jobs_button.click()
