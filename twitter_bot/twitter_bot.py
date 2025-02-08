@@ -20,7 +20,12 @@ driver = webdriver.Chrome(options=options)
 driver.get("https://x.com/home")
 driver.maximize_window()
 
-time.sleep(7)
+time.sleep(3)
+
+refuse_cookies = driver.find_element(By.XPATH, '//*[@id="layers"]/div/div/div/div/div/div[2]/button[2]')
+refuse_cookies.click()
+
+time.sleep(3)
 
 sign_in_button = driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div[1]/div/div/div[3]/div[3]/a')
 sign_in_button.click()
@@ -42,8 +47,12 @@ password.send_keys(my_pass)
 
 time.sleep(3)
 
-entry_button = driver.find_element(By.XPATH,'//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/button')
-entry_button.click()
+sign_in = driver.find_element(By.XPATH,'//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[1]/div/div/button')
+sign_in.click()
 
-time.sleep(10)
+time.sleep(8)
 
+twit_entry = driver.find_element(By.CSS_SELECTOR, ".public-DraftStyleDefault-block.public-DraftStyleDefault-ltr")
+twit_entry.send_keys("Sample Sentence is being written..")
+twit_entry_button = driver.find_element(By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div[2]/div[1]/div/div/div/div[2]/div[2]/div[2]/div/div/div/button')
+twit_entry_button.click()
