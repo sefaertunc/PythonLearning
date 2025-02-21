@@ -28,4 +28,10 @@ time.sleep(2)
 masters_dic = {element.text:element.find_element(By.CSS_SELECTOR, "a") for element in all_programs_list if element.text.split()[0].lower() == 'master'}
 time.sleep(2)
 
-
+for master in masters_dic.items():
+    master[1].click()
+    time.sleep(2)
+    lectures = driver.find_elements(By.CSS_SELECTOR, ".courseTitle")
+    for lecture in lectures:
+        print(lecture.text)
+    asdasfa= input()
