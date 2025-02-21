@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 
 load_dotenv("../.venv/.env")
 
-my_pass = os.getenv("PASSWORD")
+my_pass = os.getenv("m_pass")
 print(my_pass)
 
 options = webdriver.ChromeOptions()
